@@ -224,6 +224,12 @@ git_describe_command = [
 # Such builds can inject the real version via SETUPTOOLS_SCM_PRETEND_VERSION.
 fallback_version = "0.0.0+unknown"
 
+# FastMCP 2.x still imports the MCP 1.x ``McpError`` API. Constrain every
+# platform marker to the patched MCP 1.x line so universal lock resolution
+# cannot select incompatible MCP 2.x wheels for older Python versions.
+[tool.uv]
+constraint-dependencies = ["mcp>=1.28.1,<2"]
+
 [tool.uv.sources]
 samantha-rust = { path = "rust/crates/samantha-python" }
 
