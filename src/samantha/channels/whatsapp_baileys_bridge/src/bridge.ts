@@ -75,7 +75,10 @@ async function main(): Promise<void> {
       if (connection === "close") {
         const statusCode =
           (lastDisconnect?.error as any)?.output?.statusCode ??
-          DisconnectReason.unknown;
+          // Baileys no longer exposes an `unknown` enum member. A missing
+          // status code is still a transient failure, so use a sentinel that
+          // falls through to the reconnect path below.
+          0;
 
         if (statusCode === DisconnectReason.loggedOut) {
           emit({ type: "status", status: "disconnected" });
