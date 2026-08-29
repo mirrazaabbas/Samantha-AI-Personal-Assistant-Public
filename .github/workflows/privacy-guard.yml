@@ -28,8 +28,10 @@ jobs:
       - name: Reject absolute macOS home paths
         shell: bash
         run: |
-          if git grep -nE '/Users/[^/<[:space:]]+' -- \
-            ':!tests/**' ':!docs/**' ':!frontend/**'; then
+          if git grep -I -nE '/Users/[^/<[:space:]]+' -- \
+            ':!tests/**' ':!docs/**' ':!frontend/**' \
+            ':!.github/workflows/privacy-guard.yml' \
+            ':!src/samantha/analytics/redaction.py'; then
             echo 'Use portable home-directory paths instead of personal paths.'
             exit 1
           fi

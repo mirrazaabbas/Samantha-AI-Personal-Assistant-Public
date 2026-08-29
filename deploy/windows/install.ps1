@@ -22,10 +22,10 @@
          deploy/windows/samantha-service.ps1).
 
     Usage (one-liner):
-      irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 | iex
+      irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 | iex
 
     Usage (file invocation, supports flags):
-      irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 -OutFile install.ps1
+      irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 -OutFile install.ps1
       .\install.ps1 -SkipService
 
     Flags (when running the file directly):
