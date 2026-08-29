@@ -4,10 +4,10 @@
 
 | Platform | One-liner | Detailed guide |
 |---|---|---|
-| **macOS** | `curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh \| bash` | [macOS install](macos.md) |
-| **Linux** | `curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh \| bash` | [Linux install](linux.md) |
-| **WSL2 on Windows** | `curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh \| bash` (run inside Ubuntu) | [WSL2 install](wsl2.md) |
-| **Native Windows** | `irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 \| iex` | [Native Windows install](windows-native.md) |
+| **macOS** | `curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh \| bash` | [macOS install](macos.md) |
+| **Linux** | `curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh \| bash` | [Linux install](linux.md) |
+| **WSL2 on Windows** | `curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh \| bash` (run inside Ubuntu) | [WSL2 install](wsl2.md) |
+| **Native Windows** | `irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 \| iex` | [Native Windows install](windows-native.md) |
 | **Desktop GUI** | Download from the [latest release](https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/releases) | — |
 
 The bash and PowerShell installers do the same thing on their respective hosts. The rest of this page documents the bash installer in detail; the [native Windows guide](windows-native.md) is the equivalent reference for PowerShell.
@@ -15,16 +15,17 @@ The bash and PowerShell installers do the same thing on their respective hosts. 
 ## Bash installer
 
 ```bash
-curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 ```
 
 The installer downloads everything for you — including [uv](https://docs.astral.sh/uv/)
 (the Python package manager), the Python venv, Ollama, and a small starter
 model. **You don't need to install uv or any other prerequisite first.**
 
-!!! info "Install URL"
-    Samantha is maintained in your private GitHub repository. Private-repository
-    downloads require an authenticated GitHub session or token.
+!!! info "Public source"
+    The public installer downloads source from this public repository. Personal
+    configuration, memory, credentials, voiceprints, and logs remain on the
+    user's device and must never be committed.
 
 About 3 minutes on a typical broadband connection. Type `samantha` to start chatting.
 

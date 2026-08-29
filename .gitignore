@@ -76,6 +76,8 @@ src/samantha/server/static/
 
 # Desktop (Tauri)
 frontend/src-tauri/target/
+# Legacy or downloaded sidecar binaries must be fetched during release builds.
+desktop/src-tauri/binaries/
 
 # Worktrees
 .worktrees/

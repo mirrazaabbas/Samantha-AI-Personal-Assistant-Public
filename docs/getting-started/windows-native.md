@@ -27,7 +27,7 @@ avoid a Linux VM; WSL2 remains the smoother experience for most users.
 In any PowerShell:
 
 ```powershell
-irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 | iex
+irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 | iex
 ```
 
 The installer will:

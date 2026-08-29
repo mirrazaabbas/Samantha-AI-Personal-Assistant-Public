@@ -1,6 +1,23 @@
+from datetime import datetime
 from unittest.mock import MagicMock, patch
 
 from samantha.cli._fast_voice_commands import handle_fast_voice_command
+
+
+def test_current_time_is_answered_without_tools():
+    with patch("samantha.cli._fast_voice_commands.datetime") as clock:
+        clock.now.return_value.astimezone.return_value = datetime(2026, 8, 29, 23, 45)
+        response = handle_fast_voice_command("tell me the current time")
+
+    assert response == "The current time is 11:45 PM, Sir."
+
+
+def test_current_date_is_answered_without_tools():
+    with patch("samantha.cli._fast_voice_commands.datetime") as clock:
+        clock.now.return_value.astimezone.return_value = datetime(2026, 8, 29, 23, 45)
+        response = handle_fast_voice_command("what is today's date?")
+
+    assert response == "Today is Saturday, August 29, 2026, Sir."
 
 
 def _result(*, success=True, content=""):

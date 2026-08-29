@@ -2,7 +2,7 @@
 # install.sh — Samantha curl-pipe-bash installer.
 #
 # Usage:
-#   curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 #
 # Flags (only used in tests / power users):
 #   --no-bg-orchestrator   Skip the detached background orchestrator
@@ -49,7 +49,7 @@ Samantha runs on Windows via WSL2. Two paths:
 
      Open the Ubuntu shell that gets installed, then re-run:
 
-       curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+       curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 
   2. Desktop app — download the .exe from the Releases page:
      https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/releases
@@ -148,7 +148,7 @@ Two ways forward:
        Arch:          sudo pacman -S $tool
 
   2. Pre-authenticate sudo before piping (caches credentials for 5 min):
-       sudo -v && curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+       sudo -v && curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 EOF
         exit 1
     fi
@@ -514,6 +514,12 @@ create_venv() {
     # surfaceable when the bootstrap fallback also fails.
     local py_version
     py_version="$(parse_requires_python "$SRC_DIR/pyproject.toml")"
+    # openwakeword depends on tflite-runtime on Linux. PyPI currently provides
+    # Linux wheels only through CPython 3.11, so selecting the project's newest
+    # generic Python there produces an environment that cannot be installed.
+    if [[ "$(uname -s)" == "Linux" ]]; then
+        py_version="3.11"
+    fi
     echo "    Target Python: $py_version (from pyproject.toml requires-python)"
 
     local err_log="$STATE_DIR/venv-create.err"
