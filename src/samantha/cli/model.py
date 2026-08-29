@@ -710,8 +710,12 @@ def convert(
             title = "GGUF conversion complete"
     console.print(
         Panel(
-            f"[bold]Artifact:[/bold] {artifact}\n\n[cyan]Start with:[/cyan]\n  {hint}",
+            f"[bold]Artifact:[/bold] {artifact}",
             title=title,
             border_style="green",
         )
     )
+    # Keep the actionable command outside the panel so a narrow/short
+    # terminal cannot crop the final wrapped line (notably under pytest-xdist
+    # capture and on small Windows consoles).
+    console.print(f"[cyan]Start with:[/cyan] {hint}")

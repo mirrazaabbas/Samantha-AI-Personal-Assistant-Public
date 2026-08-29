@@ -26,6 +26,27 @@ _MANAGED_SHUTDOWN_GRACE_SECONDS = 0.25
 _MANAGED_SHUTDOWN_DRAIN_SECONDS = 10.0
 
 
+def _register_shutdown_handler(app: FastAPI, handler) -> None:
+    """Register a shutdown callback across supported FastAPI generations.
+
+    Newer FastAPI releases removed ``FastAPI.add_event_handler`` in favor of
+    the router/lifespan API. Keep the callback registration in one compatibility
+    shim so optional integrations (including vLLM) can use newer FastAPI
+    releases without breaking Samantha's managed cleanup.
+    """
+    add_event_handler = getattr(app, "add_event_handler", None)
+    if callable(add_event_handler):
+        add_event_handler("shutdown", handler)
+        return
+
+    shutdown_handlers = getattr(getattr(app, "router", None), "on_shutdown", None)
+    if isinstance(shutdown_handlers, list):
+        shutdown_handlers.append(handler)
+        return
+
+    raise RuntimeError("FastAPI does not expose a shutdown handler registry")
+
+
 def _restore_sendblue_bindings(app: FastAPI) -> None:
     """Restore SendBlue channel bindings from the database on startup.
 
@@ -341,7 +362,7 @@ def create_app(
             except Exception:
                 logger.debug("Memory backend shutdown failed", exc_info=True)
 
-    app.add_event_handler("shutdown", _shutdown_managed_runtime)
+    _register_shutdown_handler(app, _shutdown_managed_runtime)
 
     # Wire up trace store if traces are enabled.
     #
@@ -403,7 +424,7 @@ def create_app(
                     except Exception:
                         pass
 
-            app.add_event_handler("shutdown", _shutdown_analytics)
+            _register_shutdown_handler(app, _shutdown_analytics)
     except Exception as _exc:
         logger.debug("Analytics init skipped: %s", _exc)
 
@@ -418,7 +439,7 @@ def create_app(
                 except Exception:
                     pass
 
-        app.add_event_handler("shutdown", _shutdown_memory_service)
+        _register_shutdown_handler(app, _shutdown_memory_service)
 
     app.include_router(router)
     app.include_router(dashboard_router)
