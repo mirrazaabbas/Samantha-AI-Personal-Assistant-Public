@@ -1,0 +1,35 @@
+name: Privacy Guard
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  privacy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Reject private runtime artifacts
+        shell: bash
+        run: |
+          forbidden=$(find . -type f \
+            \( -name '*.db' -o -name '*.sqlite' -o -name '*.npy' \
+               -o -name '*.npz' -o -name '*.wav' -o -name '*.mp3' \
+               -o -name '*.m4a' -o -name '*.log' -o -name '.env' \) \
+            -not -path './.git/*' -print)
+          if [ -n "$forbidden" ]; then
+            echo "Private runtime artifacts must not be committed:"
+            echo "$forbidden"
+            exit 1
+          fi
+      - name: Reject absolute macOS home paths
+        shell: bash
+        run: |
+          if git grep -nE '/Users/[^/<[:space:]]+' -- \
+            ':!tests/**' ':!docs/**' ':!frontend/**'; then
+            echo 'Use portable home-directory paths instead of personal paths.'
+            exit 1
+          fi

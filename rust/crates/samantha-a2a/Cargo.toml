@@ -1,0 +1,10 @@
+[package]
+name = "samantha-a2a"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+samantha-core = { path = "../samantha-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }

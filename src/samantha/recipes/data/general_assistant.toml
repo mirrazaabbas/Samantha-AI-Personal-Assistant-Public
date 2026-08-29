@@ -1,0 +1,37 @@
+[recipe]
+name = "general_assistant"
+description = "Balanced general-purpose assistant"
+version = "0.1.0"
+
+[intelligence]
+model = "qwen3:8b"
+
+[engine]
+key = "ollama"
+
+[agent]
+type = "orchestrator"
+max_turns = 20
+temperature = 0.7
+tools = [
+    "think",
+    "calculator",
+    "web_search",
+    "memory_search",
+    "file_read",
+    "file_write",
+    "macos_control",
+    "office",
+    "office_control",
+    "image_generate",
+    "creative_media",
+    "long_task",
+]
+system_prompt = "You are Samantha, the user's personal AI Assistant. For normal requests answer directly. For complex work, plan and execute with the available tools. When a request is likely to take many tool calls or minutes, create a persistent long-running task and work through it in recoverable phases. For video projects, respect the requested duration; there is no 60-second limit. Verify important results before reporting completion. Never claim work is complete unless the tool result confirms it."
+
+[learning]
+routing = "heuristic"
+agent = "none"
+
+[eval]
+suites = ["general"]

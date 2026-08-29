@@ -1,0 +1,29 @@
+"""Benchmarking framework for Samantha inference engines."""
+
+from __future__ import annotations
+
+from samantha.bench._stubs import BaseBenchmark, BenchmarkResult, BenchmarkSuite
+from samantha.core.registry import BenchmarkRegistry
+
+
+def ensure_registered() -> None:
+    """Ensure all benchmark implementations are registered."""
+    from samantha.bench.energy import ensure_registered as _reg_energy
+    from samantha.bench.latency import ensure_registered as _reg_latency
+    from samantha.bench.throughput import ensure_registered as _reg_throughput
+
+    _reg_latency()
+    _reg_throughput()
+    _reg_energy()
+
+
+# Trigger registration on import
+ensure_registered()
+
+__all__ = [
+    "BaseBenchmark",
+    "BenchmarkRegistry",
+    "BenchmarkResult",
+    "BenchmarkSuite",
+    "ensure_registered",
+]

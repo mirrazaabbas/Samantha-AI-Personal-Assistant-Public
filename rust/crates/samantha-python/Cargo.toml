@@ -1,0 +1,32 @@
+[package]
+name = "samantha-python"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "samantha_rust"
+crate-type = ["cdylib"]
+
+[dependencies]
+samantha-core = { path = "../samantha-core" }
+samantha-engine = { path = "../samantha-engine" }
+samantha-security = { path = "../samantha-security" }
+samantha-tools = { path = "../samantha-tools" }
+samantha-agents = { path = "../samantha-agents" }
+samantha-traces = { path = "../samantha-traces" }
+samantha-telemetry = { path = "../samantha-telemetry" }
+samantha-learning = { path = "../samantha-learning" }
+samantha-mcp = { path = "../samantha-mcp" }
+samantha-sessions = { path = "../samantha-sessions" }
+samantha-workflow = { path = "../samantha-workflow" }
+samantha-skills = { path = "../samantha-skills" }
+samantha-recipes = { path = "../samantha-recipes" }
+samantha-templates = { path = "../samantha-templates" }
+samantha-a2a = { path = "../samantha-a2a" }
+samantha-scheduler = { path = "../samantha-scheduler" }
+pyo3 = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+once_cell = { workspace = true }
+parking_lot = { workspace = true }
