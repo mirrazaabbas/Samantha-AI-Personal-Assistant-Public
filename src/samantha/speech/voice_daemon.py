@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 
 from samantha.cli._fast_voice_commands import handle_fast_voice_command
 from samantha.cli._voice_chat import VoiceSession
+from samantha.core.config import load_config
 from samantha.speech.macos_tts import MacOSTTSBackend
 from samantha.speech.speaker_verification import SpeakerVerifier
 from samantha.speech.voice_io import (
@@ -198,12 +199,13 @@ def _ask_server(
     command: str,
     server_url: str,
     *,
+    model: str = "qwen3:1.7b",
     samantha: Path | None = None,
     attempts: int = 2,
 ) -> str:
     payload = json.dumps(
         {
-            "model": "qwen3.5:9b",
+            "model": model,
             "messages": [{"role": "user", "content": command}],
             "max_tokens": 220,
             "temperature": 0.2,
@@ -304,6 +306,7 @@ def run() -> None:
     # API-available voice when a private Siri-only voice cannot be used by say.
     voice = ""
     session = VoiceSession()
+    model = load_config().intelligence.default_model or "qwen3:1.7b"
     health = _startup_health(session, samantha, server_url)
     failed = [name.replace("_", " ") for name, ok in health.items() if not ok]
     if failed and health["speech_output"]:
@@ -363,7 +366,12 @@ def run() -> None:
                     _record_activity("confirmation_approved", command=command)
                 response = handle_fast_voice_command(command)
                 if response is None:
-                    response = _ask_server(command, server_url, samantha=samantha)
+                    response = _ask_server(
+                        command,
+                        server_url,
+                        model=model,
+                        samantha=samantha,
+                    )
                 _record_activity("command_completed", command=command)
                 command = _speak(
                     response,
