@@ -261,7 +261,12 @@ def test_disconnect_timeout_preserves_source_and_guards_reconnect(
 
     connector = StuckConnector()
     _instances["obsidian"] = connector
-    monkeypatch.setattr(connectors_router, "_SYNC_STOP_TIMEOUT_SECONDS", 0.05)
+    # Keep this deliberately shorter than the connector's normal five-second
+    # budget so the first disconnect still exercises the timeout path.  A
+    # 50 ms budget is too close to ordinary thread-scheduler jitter on shared
+    # CI runners and made the final post-release disconnect flaky even after
+    # the worker had finished its actual sync operation.
+    monkeypatch.setattr(connectors_router, "_SYNC_STOP_TIMEOUT_SECONDS", 0.5)
     new_vault = tmp_path / "new-vault"
     new_vault.mkdir()
 
