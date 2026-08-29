@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from datetime import datetime
 
 from samantha.tools.macos_control import MacOSControlTool
 from samantha.tools.user_profile_manage import UserProfileManageTool
@@ -27,6 +28,17 @@ _ADD_PRIORITY = re.compile(
 _COMPLETE_PRIORITY = re.compile(
     r"^(?:(?:hey|hi|hello)\s+)?(?:samantha[,\s]+)?(?:please\s+)?"
     r"(?:complete|finish|remove)\s+(?:the\s+)?priority\s+(.+?)[.!?]?$",
+    re.IGNORECASE,
+)
+_CURRENT_TIME = re.compile(
+    r"(?:(?:can|could) you\s+)?(?:(?:tell|give) me\s+)?(?:the\s+)?"
+    r"(?:current\s+)?time|what(?:'s| is)\s+(?:the\s+)?(?:current\s+)?"
+    r"time(?:\s+now)?",
+    re.IGNORECASE,
+)
+_CURRENT_DATE = re.compile(
+    r"(?:(?:can|could) you\s+)?(?:(?:tell|give) me\s+)?(?:the\s+)?"
+    r"(?:current\s+)?date|what(?:'s| is)\s+(?:today'?s|the current)\s+date",
     re.IGNORECASE,
 )
 
@@ -54,6 +66,16 @@ _APP_ALIASES = {
 }
 
 
+def _format_local_time(now: datetime) -> str:
+    """Format a spoken time without platform-specific strftime flags."""
+    return f"{now.strftime('%I').lstrip('0') or '0'}:{now.strftime('%M %p')}"
+
+
+def _format_local_date(now: datetime) -> str:
+    """Format a spoken date portably on Windows, macOS, and Linux."""
+    return f"{now.strftime('%A, %B')} {now.day}, {now.year}"
+
+
 def handle_fast_voice_command(text: str) -> str | None:
     """Execute supported low-risk voice commands without calling an LLM."""
 
@@ -71,6 +93,13 @@ def handle_fast_voice_command(text: str) -> str | None:
         command,
         flags=re.IGNORECASE,
     ).strip()
+    normalized_command = command.strip(" .!?")
+    now = datetime.now().astimezone()
+    if _CURRENT_TIME.fullmatch(normalized_command):
+        return f"The current time is {_format_local_time(now)}, Sir."
+    if _CURRENT_DATE.fullmatch(normalized_command):
+        return f"Today is {_format_local_date(now)}, Sir."
+
     if _LIST_PRIORITIES.fullmatch(command):
         result = UserProfileManageTool().execute(action="read")
         priorities = [

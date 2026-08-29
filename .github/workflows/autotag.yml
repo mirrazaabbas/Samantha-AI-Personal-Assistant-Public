@@ -1,8 +1,6 @@
 name: Auto-tag on main push
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

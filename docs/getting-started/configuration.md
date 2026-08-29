@@ -35,7 +35,7 @@ The root is resolved in priority order:
 
 ```bash
 # Relocate the whole install + runtime tree at install time:
-SAMANTHA_HOME=~/apps/samantha curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+SAMANTHA_HOME=~/apps/samantha curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 
 # Or for a single run / your shell profile:
 export SAMANTHA_HOME=~/apps/samantha

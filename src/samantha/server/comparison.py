@@ -425,8 +425,8 @@ tpcSlider.addEventListener('input', updateCalc);
 // -- Copy button --
 document.getElementById('copy-btn').addEventListener('click', () => {
   const cmd = 'git clone https://github.com/mirrazaabbas/'
-    + 'Samantha-AI-Personal-Assistant.git && cd '
-    + 'Samantha-AI-Personal-Assistant && uv sync';
+    + 'Samantha-AI-Personal-Assistant-Public.git && cd '
+    + 'Samantha-AI-Personal-Assistant-Public && uv sync';
   navigator.clipboard.writeText(cmd).then(() => {
     const btn = document.getElementById('copy-btn');
     btn.textContent = 'Copied!';
