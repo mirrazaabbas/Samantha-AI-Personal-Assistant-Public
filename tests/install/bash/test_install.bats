@@ -221,10 +221,16 @@ IDEOF
     [ "$second_count" -eq 1 ]
 }
 
-@test "create_venv picks newest in requires-python range, not hardcoded 3.11 (#476)" {
+@test "create_venv selects a Python compatible with platform dependencies" {
     run bash "$SCRIPT" --no-bg-orchestrator --minimal
     [ "$status" -eq 0 ]
-    # uv stub logs every invocation. We should see `venv --python 3.13 ...`
-    # (the upper bound of >=3.10,<3.14 is 3.14, so the highest usable is 3.13).
-    grep -q '^venv --python 3.13' "$UV_STUB_LOG"
+    if [[ "$(uname -s)" == "Linux" ]]; then
+        # tflite-runtime, required by openwakeword on Linux, currently ships
+        # wheels only through CPython 3.11.
+        grep -q '^venv --python 3.11' "$UV_STUB_LOG"
+    else
+        # On platforms without the tflite constraint, use the highest Python
+        # allowed by >=3.10,<3.14.
+        grep -q '^venv --python 3.13' "$UV_STUB_LOG"
+    fi
 }

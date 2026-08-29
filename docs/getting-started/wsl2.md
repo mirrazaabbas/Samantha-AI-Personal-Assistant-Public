@@ -18,7 +18,7 @@ Then open the Ubuntu (or Debian) shell that gets installed.
 ## Install Samantha
 
 ```bash
-curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 ```
 
 About 3 minutes. Type `samantha` to start.

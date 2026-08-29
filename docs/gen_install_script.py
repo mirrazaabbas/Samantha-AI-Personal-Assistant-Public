@@ -2,8 +2,8 @@
 
 Serves the installers at::
 
-    https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh   (Linux / macOS / WSL2)
-    https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1  (native Windows)
+    https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh   (Linux / macOS / WSL2)
+    https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1  (native Windows)
 
 so users have an HTTPS-valid, project-controlled install URL that does not
 depend on the externally-hosted ``samantha.ai`` domain — whose TLS config

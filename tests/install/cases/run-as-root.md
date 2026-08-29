@@ -15,7 +15,7 @@ User runs `sudo bash install.sh` or invokes the installer from a root shell.
 Re-run as the regular user (without sudo):
 
 ```bash
-curl -fsSL https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/scripts/install/install.sh | bash
 ```
 
 ## Test

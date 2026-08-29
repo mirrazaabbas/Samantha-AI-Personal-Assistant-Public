@@ -9,7 +9,7 @@ PowerShell, without WSL2 or Docker.
 In an elevated-or-regular PowerShell:
 
 ```powershell
-irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 | iex
+irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 | iex
 ```
 
 What it does:
@@ -39,7 +39,7 @@ absent:
 
 ```powershell
 $env:SAMANTHA_SKIP_SERVICE = '1'
-irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 | iex
+irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 | iex
 ```
 
 The available env vars: `SAMANTHA_SKIP_SERVICE`, `SAMANTHA_SERVICE`,
@@ -111,7 +111,7 @@ uv sync --extra desktop --group desktop-native
 Or re-run the installer with `-Force`:
 
 ```powershell
-irm https://github.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/install.ps1 | iex
+irm https://raw.githubusercontent.com/mirrazaabbas/Samantha-AI-Personal-Assistant-Public/main/deploy/windows/install.ps1 | iex
 # (then re-run with the file directly, passing -Force)
 ```
 
