@@ -8,8 +8,13 @@
     "start": "node dist/bridge.js"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "^7.0.0-rc.9",
+    "@whiskeysockets/baileys": "^7.0.0-rc.12",
     "qrcode-terminal": "^0.12"
+  },
+  "overrides": {
+    "protobufjs": "^7.6.5",
+    "sharp": "^0.35.0",
+    "ws": "^8.21.0"
   },
   "devDependencies": {
     "typescript": "^5.0"
