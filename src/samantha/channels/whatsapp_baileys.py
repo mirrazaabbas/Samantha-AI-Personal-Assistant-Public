@@ -151,7 +151,11 @@ class WhatsAppBaileysChannel(BaseChannel):
 
         try:
             bridge_js = self._ensure_bridge()
-        except RuntimeError as exc:
+        # Bridge setup can invoke npm to install the bundled dependencies.  A
+        # missing Node/npm binary, a failed install, or a read-only runtime
+        # directory must degrade to an error status instead of escaping from
+        # the channel contract (and taking the server down).
+        except (RuntimeError, OSError, subprocess.CalledProcessError) as exc:
             logger.error("Bridge setup failed: %s", exc)
             self._status = ChannelStatus.ERROR
             return
